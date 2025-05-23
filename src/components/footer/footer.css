@@ -1,0 +1,13 @@
+.custom-footer{
+    background-color: #03588C;
+    color: white !important;
+}
+.custom-footer p{
+    color: white;
+}
+.nav-item a{
+    color: white;
+    font-size: 20rem;
+    font-size: 30px !important;
+    font-weight: 600;
+}

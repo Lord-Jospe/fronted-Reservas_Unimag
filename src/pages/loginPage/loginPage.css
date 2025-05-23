@@ -1,0 +1,80 @@
+main {
+  height: 100vh; /* Ocupa toda la altura de la ventana */
+  width: 100vw;  /* Ocupa todo el ancho */
+  background-image: url(../../assets/background-loginPage.jpg);
+  background-size: cover;       /* Escala la imagen para cubrir toda el área */
+  background-position: center;  /* Centra la imagen */
+  background-repeat: no-repeat; /* Evita que se repita */
+
+  display: flex;                /* Centrado de contenido */
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: white; /* Opcional: texto en blanco si el fondo es oscuro */
+}
+
+.login-container {
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 2rem;
+  border-radius: 1rem;
+  width: 100%;
+  max-width: 450px;
+  text-align: center;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+  color: black;
+}
+
+.login-container h2{
+    color: black;
+}
+
+.login-container h4{
+    text-align: left;
+}
+/* Logo */
+.logo {
+  width: 100px;
+  margin-bottom: 1rem;
+}
+.login-container p{
+    font-size: 0.875rem;
+    margin-top: 1rem;
+}
+
+/* Campos de entrada */
+form input {
+  width: 100%;
+  padding: 0.75rem;
+  margin: 0.5rem 0;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+}
+
+/* Botón */
+form button {
+  background-color: #004b93;
+  color: white;
+  border: none;
+  padding: 0.75rem;
+  width: 100%;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 20px;
+  margin-top: 1rem;
+}
+
+/* Enlace y checkbox */
+.options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+}
+
+.options a {
+  color: #004b93;
+  text-decoration: none;
+}

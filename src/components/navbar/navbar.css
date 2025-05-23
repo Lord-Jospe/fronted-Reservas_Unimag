@@ -1,0 +1,23 @@
+.custom-navbar{
+    background-color: #03588C;
+    color: white;
+}
+
+.custom-navbar span{
+    color: white;
+    font-size: 20rem;
+    font-size: 30px !important;
+    font-weight: 600;
+}
+
+.custom-navbar .nav{
+    padding-right: 40px;
+    font-size: 20px !important;
+}
+.nav-item{
+    padding: 0 10px;
+}
+.nav-link.active{
+    background-color: #F2AA52 !important;
+    
+}
