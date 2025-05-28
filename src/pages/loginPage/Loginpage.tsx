@@ -4,7 +4,7 @@ import logoUnimagdalena from '../../assets/logo-unimagdalena.png';
 
 function LoginPage() {
   return (
-    <main>
+    <main className="main-login">
       <div className="login-container">
         <img src={logoUnimagdalena} alt="Logo Unimagdalena" className="logo"/>
         <h2>

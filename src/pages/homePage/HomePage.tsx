@@ -1,13 +1,34 @@
+import { useState } from "react";
+import "./homePage.css";
+import CardsList from "../../components/cardsList/CardsList";
 import Navbar from "../../components/navbar/Navbar";
 import Sidebar from "../../components/sidebar/Sidebar";
 
+const categoryMap: Record<string, string> = {
+  Canchas: "Cancha",
+  Auditorios: "Auditorio",
+  Cubículos: "Cubículo",
+  Salones: "Salon",
+  "Zonas comunes": "zona común",
+  "Salones de Audiovisuales": "salon de audiovisuales",
+};
+
 const HomePage = () => {
+  const [selectedCategory, setSelectedCategory] = useState("Canchas");
   return (
-    <>
+    <div className="navbar-container">
+      {/* Navbar arriba */}
       <Navbar />
 
-      <Sidebar />
-    </>
+      {/* Contenedor principal con Sidebar y contenido */}
+      <section className="main-container">
+        <Sidebar onSelectCategory={setSelectedCategory} selected={selectedCategory} />
+        <div className="content-container">
+          <h3 className="title-content">{selectedCategory}</h3>
+          <CardsList category={categoryMap[selectedCategory]} />
+        </div>
+      </section>
+    </div>
   );
 };
 

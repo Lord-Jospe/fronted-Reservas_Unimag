@@ -2,7 +2,21 @@ import './sidebar.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
-function Sidebar() {
+type SidebarProps = {
+  onSelectCategory: (category: string) => void;
+  selected: string;
+};
+
+function Sidebar({ onSelectCategory, selected }: SidebarProps) {
+  const options = [
+    "Canchas",
+    "Auditorios",
+    "Cubículos",
+    "Salones",
+    "Zonas comunes",
+    "Salones de Audiovisuales"
+  ];
+  
   return (
     <aside className="sidebar">
       <div className="search-box">
@@ -10,12 +24,15 @@ function Sidebar() {
         <input type="text" placeholder="Buscar" />
       </div>
       <ul className="menu">
-        <li className="active">Canchas</li>
-        <li>Auditorios</li>
-        <li>Cubículos</li>
-        <li>Salones</li>
-        <li>Zonas comunes</li>
-        <li>Salones de Audiovisuales</li>
+        {options.map((item) => (
+          <li
+            key={item}
+            className={selected === item ? "active" : ""}
+            onClick={() => onSelectCategory(item)}
+          >
+            {item}
+          </li>
+        ))}
       </ul>
     </aside>
   );

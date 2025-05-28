@@ -1,4 +1,4 @@
-main {
+main-login{
   height: 100vh; /* Ocupa toda la altura de la ventana */
   width: 100vw;  /* Ocupa todo el ancho */
   background-image: url(../../assets/background-loginPage.jpg);
