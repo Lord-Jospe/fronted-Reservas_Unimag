@@ -1,0 +1,88 @@
+.time-selector {
+  background: #fff;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 0 15px 0 rgba(0,0,0,0.15);
+  margin-bottom: 1rem;
+  
+}
+
+.time-periods {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.time-period {
+  cursor: pointer;
+  font-weight: 600;
+  color: #005b95;
+  padding: 0.3rem 0.7rem;
+  border-radius: 6px;
+}
+
+.time-period.active {
+  background-color: #d6eaf8;
+}
+
+.segmentos {
+  display: flex;
+  justify-content: space-around;
+  font-weight: bold;
+  font-size: 14px;
+  color: #2e6f9e;
+  margin-bottom: 0.5rem;
+  position: relative;
+}
+
+.segmento {
+  flex: 1;
+  text-align: center;
+  cursor: pointer;
+}
+
+.segmento.activo {
+  color: #005b95;
+}
+
+.linea-progreso {
+  position: relative;
+  height: 3px;
+  background-color: #c6d9e7;
+  border-radius: 2px;
+  margin-bottom: 1rem;
+}
+
+.barra-activa {
+  position: absolute;
+  height: 3px;
+  width: 14.2857143%;
+  background-color: #005b95;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+.time-slots {
+  display: flex;
+  gap: 1rem;
+  justify-content: space-evenly; /* o space-between */
+  flex-wrap: wrap;
+
+  margin: 0 auto;         /* <-- Esto lo centra horizontalmente */
+}
+
+.time-slot {
+  border: 1px solid #007bff;
+  background-color: white;
+  color: #007bff;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: background-color 0.2s;
+  cursor: pointer;
+}
+
+.time-slot.selected {
+  background-color: #c9e2f5;
+}

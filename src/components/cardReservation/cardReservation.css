@@ -1,0 +1,41 @@
+.reserva-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f4f9fc;
+  border: 1px solid #007bff;
+  padding: 1rem;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+}
+
+.reserva-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  color: #005b95;
+  font-weight: 500;
+}
+
+.reserva-hora {
+  font-size: 1rem;
+}
+
+.reserva-fecha {
+  font-size: 0.9rem;
+}
+
+.reserva-button {
+  background-color: #f4a236;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.3s;
+}
+
+.reserva-button:hover {
+  background-color: #e08925;
+}

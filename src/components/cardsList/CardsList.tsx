@@ -17,6 +17,7 @@ function CardsList({ category }: CardsListProps) {
         {filteredSpaces.map((space) => (
           <div className="col-md-6 mb-4" key={space.id}>
             <Cards
+              id={space.id}
               title={space.title}
               location={space.location}
             />

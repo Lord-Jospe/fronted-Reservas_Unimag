@@ -1,15 +1,26 @@
 import "./cards.css";
 import { MapPin } from "lucide-react";
 import image from "../../assets/canchas.png";
+import { useNavigate } from "react-router-dom";
 type SpaceCardProps = {
+  id: number;
   title: string;
-
   location: string;
 };
 
-function Cards({ title, location }: SpaceCardProps) {
-    return (
-    <div className="card-container ">
+function Cards({ id, title, location }: SpaceCardProps) {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate(`/space/${id}`);
+  };
+
+  return (
+    <div
+      className="card-container"
+      onClick={handleClick}
+      style={{ cursor: "pointer" }}
+    >
       <img src={image} alt={title} className="image-content" />
       <div className="card-content">
         <h3 className="title-content">{title} </h3>
@@ -19,7 +30,7 @@ function Cards({ title, location }: SpaceCardProps) {
         </div>
       </div>
     </div>
-    );
+  );
 }
 
 export default Cards;
