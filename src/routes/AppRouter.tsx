@@ -5,7 +5,7 @@ import RegisterPage from "../pages/registerPage/RegisterPage";
 import HomePage from "../pages/homePage/HomePage";
 import ProtectedRoute from "./ProtectedRoute";
 import SpaceDetail from "../pages/SpaceDetail/SpaceDetail";
-import ConfirmReservationPage from "../pages/confirmReservationPage/confirmReservation";
+import ConfirmReservationPage from "../pages/confirmReservationPage/confirmReservationPage";
 
 // Importamos los componentes de las páginas que queremos usar en las rutas
 const AppRouter = createBrowserRouter([

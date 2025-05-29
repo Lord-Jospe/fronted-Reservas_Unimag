@@ -19,7 +19,7 @@ function CardReservation({
   
   const navigate = useNavigate();
   const handleClick = () => {
-    navigate("/confirmar-reserva", {
+    navigate("/confirm-reservation", {
       state: { diaSemana, horaInicio, horaFin, fecha, idEspacio }
     });
   };

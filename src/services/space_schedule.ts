@@ -70,6 +70,13 @@ const space_schedule: SpaceSchedule[] = [
     horarioInicio: '16:00',
     horarioFin: '17:00',
   },
+    {
+    idHorarioEspacio: 10,
+    idEspacio: 1,
+    dia: 'Lunes',
+    horarioInicio: '16:00',
+    horarioFin: '17:00',
+  },
 ];
 
 export default space_schedule;
