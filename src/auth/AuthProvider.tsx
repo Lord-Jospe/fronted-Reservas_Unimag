@@ -31,6 +31,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setIsAuthenticated(true);
     localStorage.setItem("token", token);
     localStorage.setItem("role", role);
+      console.log("Después de login - isAuthenticated:", isAuthenticated);
   };
 
   const logout = () => {

@@ -12,7 +12,6 @@ function TableReservation({ columna, datos }: TableReservationProps) {
       <table className="table table-striped table-sm">
         <thead>
           <tr>
-            <th scope="col">#</th>
             {columna.map((col, idx) => (
               <th scope="col" key={idx}>
                 {col}
