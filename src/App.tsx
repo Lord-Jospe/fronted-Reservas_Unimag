@@ -1,6 +1,6 @@
 function app() {
   return (
-    <p>estoy en el App!</p>
+    <p>Estoy en el app</p>
   );
 }
 export default app;

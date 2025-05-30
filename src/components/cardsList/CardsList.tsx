@@ -1,6 +1,8 @@
 import "./cardsList.css";
 import Cards from "../cards/Cards";
 import spaces from "../../services/spaces.ts";
+import { useEffect } from "react";
+import EspacioService from "../../services/EspacioService.ts";
 
 
 type CardsListProps = {
@@ -10,6 +12,13 @@ type CardsListProps = {
 function CardsList({ category }: CardsListProps) {
     
     const filteredSpaces = spaces.filter(space => space.type === category);
+
+
+  useEffect(() => {
+    EspacioService.getAllEspacios().then((response) => {console.log(response.data);})
+    .catch((error) => {console.error("Error fetching spaces:", error)})
+  });
+
 
     return (
     <div className="container">

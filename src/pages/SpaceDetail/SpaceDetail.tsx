@@ -19,7 +19,7 @@ function SpaceDetail() {
   if (!space) return <h2>Espacio no encontrado</h2>;
 
   const horariosFiltrados = schedules.filter((s) => s.dia.toUpperCase() === diaFiltrado);
-
+  console.log(space);
   return (
     <div>
       <Navbar />
@@ -56,9 +56,8 @@ function SpaceDetail() {
                   key={idx}
                   horaInicio={schedule.horarioInicio}
                   horaFin={schedule.horarioFin}
-                  fecha={new Date().toLocaleDateString()}
                   diaSemana={schedule.dia}
-                    idEspacio={space.id} />
+                  idEspacio={space.id} />
               ))
             )}
           </div>

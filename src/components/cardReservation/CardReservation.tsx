@@ -4,7 +4,6 @@ import "./cardReservation.css"
 type CardReservationProps = {
   horaInicio: string;
   horaFin: string;
-  fecha: string;
   diaSemana: string;
   idEspacio: number;
 };
@@ -12,7 +11,6 @@ type CardReservationProps = {
 function CardReservation({
   horaInicio,
   horaFin,
-  fecha,
   diaSemana,
   idEspacio
 }: CardReservationProps) {
@@ -20,7 +18,7 @@ function CardReservation({
   const navigate = useNavigate();
   const handleClick = () => {
     navigate("/confirm-reservation", {
-      state: { diaSemana, horaInicio, horaFin, fecha, idEspacio }
+      state: { diaSemana, horaInicio, horaFin, idEspacio }
     });
   };
 
@@ -30,7 +28,6 @@ function CardReservation({
         <div className="reserva-hora">
           🕒 <strong>{diaSemana}</strong>, {horaInicio} - {horaFin}
         </div>
-        <div className="reserva-fecha">{fecha}</div>
       </div>
       <button className="reserva-button" onClick={handleClick}>
         Apartar

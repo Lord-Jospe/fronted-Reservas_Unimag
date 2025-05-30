@@ -5,3 +5,4 @@ npm install --save @fortawesome/react-fontawesome
 npm install --save @fortawesome/free-brands-svg-icons
 npm install lucide-react
 npm install bootstrap
+npm i axios
