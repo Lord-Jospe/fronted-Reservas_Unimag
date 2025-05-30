@@ -22,12 +22,12 @@ function Navbar() {
       <ul className="nav nav-pills">
         {/* Añadir el hola "nombre de estudiante"*/}
         <li className="nav-item">
-          <a href="#" className="nav-link active" aria-current="page">
+          <a href="/reservations" className="nav-link active" aria-current="page">
             <FontAwesomeIcon icon={faBell} />
           </a>
         </li>
         <li className="nav-item">
-          <a href="#" className="nav-link active" aria-current="page">
+          <a href="/profile" className="nav-link active" aria-current="page">
             <FontAwesomeIcon icon={faUser} />
           </a>
         </li>

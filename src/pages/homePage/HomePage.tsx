@@ -13,8 +13,19 @@ const categoryMap: Record<string, string> = {
   "Salones de Audiovisuales": "salon de audiovisuales",
 };
 
+
+
 const HomePage = () => {
   const [selectedCategory, setSelectedCategory] = useState("Canchas");
+
+  const options = [
+      "Canchas",
+      "Auditorios",
+      "Cubículos",
+      "Salones",
+      "Zonas comunes",
+      "Salones de Audiovisuales"
+    ];
   return (
     <div className="navbar-container">
       {/* Navbar arriba */}
@@ -22,7 +33,7 @@ const HomePage = () => {
 
       {/* Contenedor principal con Sidebar y contenido */}
       <section className="main-container">
-        <Sidebar onSelectCategory={setSelectedCategory} selected={selectedCategory} />
+        <Sidebar onSelectCategory={setSelectedCategory} selected={selectedCategory} options={options} />
         <div className="content-container">
           <h3 className="title-content">{selectedCategory}</h3>
           <CardsList category={categoryMap[selectedCategory]} />

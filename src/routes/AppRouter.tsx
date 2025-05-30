@@ -1,43 +1,84 @@
 import { createBrowserRouter } from "react-router-dom";
-import App from "../App";
 import LoginPage from "../pages/loginPage/Loginpage";
-import RegisterPage from "../pages/registerPage/RegisterPage";
 import HomePage from "../pages/homePage/HomePage";
 import ProtectedRoute from "./ProtectedRoute";
+import PublicRoute from "./PublicRoute";
 import SpaceDetail from "../pages/SpaceDetail/SpaceDetail";
 import ConfirmReservationPage from "../pages/confirmReservationPage/confirmReservationPage";
+import MyReservations from "../pages/myReservations/MyReservations";
+import UserProfile from "../pages/userProfilePage/UserProfile";
+import RoleRoute from "./RoleRoute";
+import AdminDashboard from "../pages/adminDashboard/AdminDashboard";
 
-// Importamos los componentes de las páginas que queremos usar en las rutas
+// ← si ya creaste el RoleRoute
+// import RoleRoute from "./RoleRoute";
+
 const AppRouter = createBrowserRouter([
-    {
+  // RUTAS PÚBLICAS (sin autenticación)
+  {
+    path: "/",
+    element: <PublicRoute />,
+    children: [
+      {
         path: "/",
-        element: <App />,
-    },
-    {
+        element: <LoginPage />,
+      },
+      {
         path: "/login",
         element: <LoginPage />,
-    },
-    {
-        path: "/register",
-        element: <RegisterPage />,
-    },
-    {
-        path: "/",
-        element: <ProtectedRoute />,
-        children: [
-            {  
-                path: "/home",
-                element: <HomePage />,
-            },
-            {
-                path: "/space/:id",  // la ruta de detalle de espacio
-                element: <SpaceDetail />,
-            },
-            {   path: "/confirm-reservation", //pagina para confirmar reserva
-                element: <ConfirmReservationPage />,
-            }],
-    }
+      },
+    ],
+  },
 
+  // RUTAS PROTEGIDAS (requieren login)
+  {
+    path: "/*",
+    element: <ProtectedRoute />,
+    children: [
+      // 📘 ESTUDIANTE
+      {
+        path: "home",
+        element: <HomePage />,
+      },
+      {
+        path: "space/:id",
+        element: <SpaceDetail />,
+      },
+      {
+        path: "confirm-reservation",
+        element: <ConfirmReservationPage />,
+      },
+      {
+        path: "reservations",
+        element: <MyReservations />,
+      },
+      {
+        path: "profile",
+        element: <UserProfile />,
+      },
+
+      // 🔒 ADMINISTRADOR (vistas en construcción)
+      // Puedes usar un RoleRoute si deseas restringir aún más el acceso por rol
+      {
+        path: "admin",
+        element: <RoleRoute allowedRoles={['ADMINISTRADOR']} />,
+        children: [
+          {
+            path: "dashboard",
+            element: <AdminDashboard />, // <- por crear
+          },/*
+          {
+            path: "manage-users",
+            element: <ManageUsers />, // <- por crear
+          },
+          {
+            path: "reports",
+            element: <AdminReports />, // <- por crear
+          },*/
+        ],
+      },
+    ],
+  },
 ]);
 
 export default AppRouter;

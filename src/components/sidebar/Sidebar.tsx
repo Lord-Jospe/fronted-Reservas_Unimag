@@ -5,17 +5,11 @@ import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 type SidebarProps = {
   onSelectCategory: (category: string) => void;
   selected: string;
+  options: string[];
 };
 
-function Sidebar({ onSelectCategory, selected }: SidebarProps) {
-  const options = [
-    "Canchas",
-    "Auditorios",
-    "Cubículos",
-    "Salones",
-    "Zonas comunes",
-    "Salones de Audiovisuales"
-  ];
+function Sidebar({ onSelectCategory, selected, options}: SidebarProps) {
+
   
   return (
     <aside className="sidebar">

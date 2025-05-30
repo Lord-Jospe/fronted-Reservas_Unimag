@@ -70,3 +70,22 @@
   border-radius: 0.5rem;
   object-fit: cover;
 }
+.sidebar p {
+  margin: 0;
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.container-image-admin {
+  display: flex;
+  justify-content: center;
+}
+
+.image-content-admin {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ccc;
+}
