@@ -1,6 +1,4 @@
 import './sidebarAdmin.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import image from "../../assets/admin.jpg";
 
 

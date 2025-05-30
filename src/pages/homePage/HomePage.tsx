@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./homePage.css";
 import CardsList from "../../components/cardsList/CardsList";
 import Navbar from "../../components/navbar/Navbar";
 import Sidebar from "../../components/sidebar/Sidebar";
+import EspacioService from "../../services/EspacioService";
 
 const categoryMap: Record<string, string> = {
   Canchas: "Cancha",
@@ -14,10 +15,19 @@ const categoryMap: Record<string, string> = {
 };
 
 
-
 const HomePage = () => {
   const [selectedCategory, setSelectedCategory] = useState("Canchas");
-
+  
+  useEffect(() => {
+    EspacioService.getAllEspacios()
+      .then((response) => {
+        console.log("Espacios obtenidos:", response.data);
+      })
+      .catch((error) => {
+        console.error("Error al obtener espacios:", error);
+      });
+  }, []);
+  
   const options = [
       "Canchas",
       "Auditorios",

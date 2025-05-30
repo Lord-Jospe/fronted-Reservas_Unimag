@@ -1,8 +1,9 @@
 import "./loginPage.css";
 import logoUnimagdalena from "../../assets/logo-unimagdalena.png";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useAuth } from "../../auth/AuthProvider";
 import { useNavigate } from "react-router-dom";
+import UsuarioService from "../../services/UsuarioService";
 
 function LoginPage() {
   const [username, setUsername] = useState("");
@@ -11,6 +12,7 @@ function LoginPage() {
   const auth = useAuth();
   const navigate = useNavigate();
 
+  /*
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const role = await auth.login(username, password);
@@ -21,6 +23,25 @@ function LoginPage() {
       navigate("/admin/dashboard");
     } else if (role === "ESTUDIANTE") {
       navigate("/home");
+    }
+  };
+*/
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const response = await UsuarioService.loginUsuario(username, password);
+      const { token } = response.data;
+      const payload = JSON.parse(atob(token.split(".")[1]));
+      const role = payload.role;
+
+      auth.login(token, role);
+      console.log("Payload del token:", payload);
+      console.log("Usuario:", role);
+      if (role === "ADMINISTRADOR") navigate("/admin/dashboard");
+      else if (role === "ESTUDIANTE") navigate("/home");
+    } catch (error) {
+      setError("Credenciales incorrectas");
     }
   };
 
@@ -34,7 +55,7 @@ function LoginPage() {
         </h2>
         <p>Ingresa con tu cuenta institucional</p>
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleLogin}>
           <h4>Correo institucional</h4>
           <input
             type="text"

@@ -2,66 +2,47 @@ import { useContext, createContext, useState } from "react";
 
 interface AuthContextType {
   isAuthenticated: boolean;
-  login: (username: string, password: string) => Promise<string | null>; // <- aquí estaba el problema
+  login: (token: string, role: string) => void;
   logout: () => void;
   role: string | null;
+  token: string | null;
 }
 
 const AuthContext = createContext<AuthContextType>({
   isAuthenticated: false,
-  login: async () => "",
+  login: () => {},
   logout: () => {},
-  role: "",
+  role: null,
+  token: null,
 });
-
 
 interface AuthProviderProps {
   children: React.ReactNode;
 }
 
 export function AuthProvider({ children }: AuthProviderProps) {
-  const [isAuthenticated, setIsAuthenticated] = useState(() => {
-    const storedAuth = localStorage.getItem("isAuthenticated");
-    return storedAuth === "true";
-  });
+  const [token, setToken] = useState<string | null>(() => localStorage.getItem("token"));
+  const [role, setRole] = useState<string | null>(() => localStorage.getItem("role"));
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => !!localStorage.getItem("token"));
 
-  const [role, setRole] = useState<string | null>(() => {
-    return localStorage.getItem("userRole");
-  });
-
-
-const login = async (username: string, password: string): Promise<string | null> => {
-  return new Promise((resolve) => {
-    if (username === "admin@unimagdalena.edu.co" && password === "1234") {
-      setIsAuthenticated(true);
-      setRole("ADMINISTRADOR");
-      localStorage.setItem("isAuthenticated", "true");
-      localStorage.setItem("userRole", "ADMINISTRADOR");
-      resolve("ADMINISTRADOR");
-    } else if (
-      username === "estudiante@unimagdalena.edu.co" &&
-      password === "1234"
-    ) {
-      setIsAuthenticated(true);
-      setRole("ESTUDIANTE");
-      localStorage.setItem("isAuthenticated", "true");
-      localStorage.setItem("userRole", "ESTUDIANTE");
-      resolve("ESTUDIANTE");
-    } else {
-      resolve(null);
-    }
-  });
-};
+  const login = (token: string, role: string) => {
+    setToken(token);
+    setRole(role);
+    setIsAuthenticated(true);
+    localStorage.setItem("token", token);
+    localStorage.setItem("role", role);
+  };
 
   const logout = () => {
-    setIsAuthenticated(false);
-    localStorage.removeItem("isAuthenticated");
+    setToken(null);
     setRole(null);
-    localStorage.removeItem("userRole");
+    setIsAuthenticated(false);
+    localStorage.removeItem("token");
+    localStorage.removeItem("role");
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout, role }}>
+    <AuthContext.Provider value={{ isAuthenticated, login, logout, role, token }}>
       {children}
     </AuthContext.Provider>
   );
