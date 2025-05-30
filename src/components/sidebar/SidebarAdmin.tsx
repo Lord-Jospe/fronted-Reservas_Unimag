@@ -13,15 +13,11 @@ function SidebarAdmin({ correo, nombre}: SidebarAdminProps) {
 
    return (
     <aside className="sidebar">
-      <div className="search-box">
-        <FontAwesomeIcon icon={faMagnifyingGlass} />
-        <input type="text" placeholder="Buscar" />
-      </div>
       <ul className="menu">
         <li className='active'>{nombre}</li>
       </ul>
       <p>{correo}</p>
-      <div className='container-image-admin'>
+      <div className='container-image'>
         <img className="image-content-admin" src={image} alt="admin" />
       </div>
 

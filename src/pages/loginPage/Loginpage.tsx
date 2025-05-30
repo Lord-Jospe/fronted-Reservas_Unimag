@@ -11,9 +11,9 @@ function LoginPage() {
   const auth = useAuth();
   const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const role = auth.login(username, password);
+    const role = await auth.login(username, password);
     console.log("Rol del usuario:", role);
     if (!role) {
       setError("Correo o contraseña incorrectos.");
@@ -33,6 +33,7 @@ function LoginPage() {
           <strong>Reservas Unimagdalena</strong>
         </h2>
         <p>Ingresa con tu cuenta institucional</p>
+
         <form onSubmit={handleSubmit}>
           <h4>Correo institucional</h4>
           <input

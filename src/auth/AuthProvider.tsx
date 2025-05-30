@@ -2,17 +2,18 @@ import { useContext, createContext, useState } from "react";
 
 interface AuthContextType {
   isAuthenticated: boolean;
-  login: (username: string, password: string) => string | null;
+  login: (username: string, password: string) => Promise<string | null>; // <- aquí estaba el problema
   logout: () => void;
-  role: string | null; // <--- NUEVO
+  role: string | null;
 }
 
 const AuthContext = createContext<AuthContextType>({
   isAuthenticated: false,
-  login: () => "",
+  login: async () => "",
   logout: () => {},
   role: "",
 });
+
 
 interface AuthProviderProps {
   children: React.ReactNode;
@@ -29,13 +30,14 @@ export function AuthProvider({ children }: AuthProviderProps) {
   });
 
 
-  const login = (username: string, password: string): string | null => {
+const login = async (username: string, password: string): Promise<string | null> => {
+  return new Promise((resolve) => {
     if (username === "admin@unimagdalena.edu.co" && password === "1234") {
       setIsAuthenticated(true);
       setRole("ADMINISTRADOR");
       localStorage.setItem("isAuthenticated", "true");
       localStorage.setItem("userRole", "ADMINISTRADOR");
-      return "ADMINISTRADOR";
+      resolve("ADMINISTRADOR");
     } else if (
       username === "estudiante@unimagdalena.edu.co" &&
       password === "1234"
@@ -44,10 +46,12 @@ export function AuthProvider({ children }: AuthProviderProps) {
       setRole("ESTUDIANTE");
       localStorage.setItem("isAuthenticated", "true");
       localStorage.setItem("userRole", "ESTUDIANTE");
-      return "ESTUDIANTE";
+      resolve("ESTUDIANTE");
+    } else {
+      resolve(null);
     }
-    return null;
-  };
+  });
+};
 
   const logout = () => {
     setIsAuthenticated(false);
