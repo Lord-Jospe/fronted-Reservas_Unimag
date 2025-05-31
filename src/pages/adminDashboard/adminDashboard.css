@@ -1,8 +1,6 @@
-.content-container {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    height: 100%;
+.main-container {
+
+
 }
 
 .sidebar-container{
@@ -17,4 +15,11 @@
     align-items: center;
     padding: 1rem;
     justify-content: center
+}
+
+.conntent-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
 }

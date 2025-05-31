@@ -73,7 +73,7 @@ function AdminDashboard() {
   return (
     <>
       <Navbar />
-      <div className="content-container">
+      <div className="main-container">
         <div className="sidebar-container">
           <SidebarAdmin correo="John.doe@gamil.com" nombre="John Doe" />
           <Sidebar
