@@ -6,31 +6,32 @@ import "./adminDashboard.css";
 import ReservasService from "../../services/ReservasService";
 import { useAuth } from "../../auth/AuthProvider";
 import EspacioService from "../../services/EspacioService";
-import TableReservation from "../../components/tableReservation/TableReservation";
+import TableData from "../../components/tableReservation/TableData";
 
 interface Reserva {
   idReserva: number;
+  idEstudiante: number;
+  idHorarioEspacio: number;
   estadoReserva: string;
   fecha: string;
-  idEstudiante: string;
-  idHorarioEspacio: string;
   motivo: string;
 }
 
 interface Espacio {
   id: number;
   nombre: string;
-
   tipo: string;
-    ubicacion: string;
+  restricciones: string;
+  idSede: number;
+  disponible: boolean;
 }
 
 function AdminDashboard() {
   const [selectedCategory, setSelectedCategory] = useState("Inicio");
   const { role, isAuthenticated } = useAuth();
 
-  const [reservas, setReservas] = useState<Array<Array<string | number>>>([]);
-  const [espacios, setEspacios] = useState<Array<Array<string | number>>>([]);
+  const [reservas, setReservas] = useState<Reserva[]>([]);
+  const [espacios, setEspacios] = useState<Espacio[]>([]);
 
   const options = [
     "Inicio",
@@ -49,17 +50,7 @@ function AdminDashboard() {
       ReservasService.getAllReservas()
         .then((response) => {
           console.log("Datos de reservas:", response.data);
-          // Transforma los datos si es necesario
-          const datosTransformados = response.data.map((reserva: Reserva) => [
-            reserva.idReserva,
-            reserva.estadoReserva,
-            reserva.fecha,
-            reserva.idEstudiante,
-            reserva.idHorarioEspacio,
-
-            reserva.motivo,
-          ]);
-          setReservas(datosTransformados);
+          setReservas(response.data);
         })
         .catch((error) => console.error("Error al obtener reservas:", error));
     }
@@ -68,18 +59,17 @@ function AdminDashboard() {
       // Similar para espacios
       EspacioService.getAllEspacios()
         .then((response) => {
-          const datosTransformados = response.data.map((espacio: Espacio) => [
-            espacio.id,
-            espacio.nombre,
-            espacio.tipo,
-            espacio.ubicacion,
-          ]);
-          setEspacios(datosTransformados);
+          console.log("Datos de espacios:", response.data);
+          setEspacios(response.data);
         })
         .catch((error) => console.error("Error al obtener espacios:", error));
     }
-  }, [selectedCategory, isAuthenticated, role]);
+  }, [selectedCategory, espacios, isAuthenticated, role]);
 
+  console.log("Selected Category:", selectedCategory);
+  console.log("Reservas Data:", espacios);
+  //console.log("Espacios Data:", reservas);
+  console.log("Token:", localStorage.getItem("token"));
   return (
     <>
       <Navbar />
@@ -95,22 +85,29 @@ function AdminDashboard() {
         <div className="content-container">
           <h3 className="title-content">{selectedCategory}</h3>
           {selectedCategory === "Reservas" && (
-            <TableReservation
-              columna={[
-                "Espacio",
-                "Usuario",
-                "Fecha",
-                "Hora Inicio",
-                "Hora Fin",
-                "Estado",
+            <TableData
+              columnas={[
+                { label: "ID", field: "idReserva" },
+                { label: "Estado", field: "estadoReserva" },
+                { label: "Fecha", field: "fecha" },
+                { label: "Estudiante", field: "idEstudiante" },
+                { label: "Horario", field: "idHorarioEspacio" },
+                { label: "Motivo", field: "motivo" },
               ]}
               datos={reservas}
             />
           )}
 
           {selectedCategory === "Espacios" && (
-            <TableReservation
-              columna={["idEspacio", "Nombre", "Tipo", "idSede"]}
+            <TableData
+              columnas={[
+                { label: "ID", field: "id" },
+                { label: "Nombre", field: "nombre" },
+                { label: "Tipo", field: "tipo" },
+                 { label: "Restricciones", field: "restricciones" },
+                { label: "Ubicación", field: "idSede" },
+                { label: "Disponible", field: "disponible" },
+              ]}
               datos={espacios}
             />
           )}

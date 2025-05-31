@@ -1,5 +1,5 @@
 import Navbar from "../../components/navbar/Navbar";
-import TableReservation from "../../components/tableReservation/TableReservation";
+import TableReservation from "../../components/tableReservation/TableData";
 
 
 

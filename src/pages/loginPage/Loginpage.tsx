@@ -1,6 +1,6 @@
 import "./loginPage.css";
 import logoUnimagdalena from "../../assets/logo-unimagdalena.png";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useAuth } from "../../auth/AuthProvider";
 import { useNavigate } from "react-router-dom";
 import UsuarioService from "../../services/UsuarioService";
@@ -12,26 +12,30 @@ function LoginPage() {
   const auth = useAuth();
   const navigate = useNavigate();
 
-
-  useEffect(() => {
-    if (auth.isAuthenticated) {
-      if (auth.role === "ADMINISTRADOR") navigate("/admin/dashboard");
-      else if (auth.role === "ESTUDIANTE") navigate("/home");
-    }
-  }, [auth.isAuthenticated, auth.role, navigate]);
-
   const handleLogin = async (e: React.FormEvent) => {
-  e.preventDefault();
-  try {
-    const response = await UsuarioService.loginUsuario(username, password);
-    const token = response.data.token;
-    const role = response.data.rol;
-    console.log("Token:", token);
-    auth.login(token, role);
-  } catch (error) {
-    setError("Credenciales incorrectas");
-  }
-};
+    e.preventDefault();
+    try {
+      const response = await UsuarioService.loginUsuario(username, password);
+      const token = response.data.token;
+      const role = response.data.rol;
+      console.log("Login exitoso:", role);
+      console.log("Token:", token);
+
+      auth.login(token, role);
+
+      setTimeout(() => {
+        if (role === "ADMINISTRADOR") {
+          navigate("/admin/dashboard");
+        } else if (role === "ESTUDIANTE") {
+          navigate("/home");
+        } else {
+          setError("Rol no válido");
+        }
+      }, 50); // 50 milisegundos es suficiente
+    } catch (error) {
+      setError("Credenciales incorrectas");
+    }
+  };
 
   return (
     <main className="main-login">
