@@ -1,4 +1,4 @@
-//const RESERVAS_BASE_REST_API_URL = 'http://localhost:8080/api/admin/reservas';
+//const RESERVAS_BASE_REST_API_URL = 'http://localhost:8080/api/estudiante/reservas';
 import axios from 'axios';
 
 // Crea una instancia de axios configurada
