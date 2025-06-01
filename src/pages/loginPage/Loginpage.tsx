@@ -5,6 +5,18 @@ import { useAuth } from "../../auth/AuthProvider";
 import { useNavigate } from "react-router-dom";
 import UsuarioService from "../../services/UsuarioService";
 
+function decodeJWT(token: string): any {
+  try {
+    const payload = token.split('.')[1];
+    const decoded = atob(payload);
+    return JSON.parse(decoded);
+  } catch (error) {
+    console.error("Error al decodificar el token:", error);
+    return null;
+  }
+}
+
+
 function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -18,10 +30,21 @@ function LoginPage() {
       const response = await UsuarioService.loginUsuario(username, password);
       const token = response.data.token;
       const role = response.data.rol;
+
+      const decodedToken = decodeJWT(token);
+      console.log("Decoded Token:", decodedToken);
+      const userId = decodedToken?.idUsuario ||decodedToken?.id || decodedToken?.sub;
+      
+      if (!userId) {
+      setError("No se pudo obtener el ID del usuario");
+      return;
+      }
+
       console.log("Login exitoso:", role);
       console.log("Token:", token);
+      console.log("ID del usuario:", userId);
 
-      auth.login(token, role);
+      auth.login(token, role, userId);
 
       setTimeout(() => {
         if (role === "ADMINISTRADOR") {

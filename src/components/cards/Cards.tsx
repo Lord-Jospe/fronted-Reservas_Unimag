@@ -5,16 +5,16 @@ import { useNavigate } from "react-router-dom";
 
 //Propos de espacios para el componente Cards
 type SpaceCardProps = {
-  id: number;
+  idEspacio: number;
   title: string;
   location: string;
 };
 
-function Cards({ id, title, location }: SpaceCardProps) {
+function Cards({ idEspacio, title, location }: SpaceCardProps) {
   const navigate = useNavigate();
 
   const handleClick = () => {
-    navigate(`/space/${id}`);
+    navigate(`/space/${idEspacio}`);
   };
 
   return (

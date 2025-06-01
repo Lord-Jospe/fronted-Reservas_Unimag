@@ -3,35 +3,18 @@ import Navbar from "../../components/navbar/Navbar";
 import Sidebar from "../../components/sidebar/Sidebar";
 import SidebarAdmin from "../../components/sidebar/SidebarAdmin";
 import "./adminDashboard.css";
-import ReservasService from "../../services/ReservasService";
+import ReservasService, { ReservaDtoResponse } from "../../services/ReservaService";
 import { useAuth } from "../../auth/AuthProvider";
-import EspacioService from "../../services/EspacioService";
+import EspacioService, { EspacioDTOResponse } from "../../services/EspacioService";
 import TableData from "../../components/tableReservation/TableData";
 
-interface Reserva {
-  idReserva: number;
-  idEstudiante: number;
-  idHorarioEspacio: number;
-  estadoReserva: string;
-  fecha: string;
-  motivo: string;
-}
-
-interface Espacio {
-  id: number;
-  nombre: string;
-  tipo: string;
-  restricciones: string;
-  idSede: number;
-  disponible: boolean;
-}
 
 function AdminDashboard() {
   const [selectedCategory, setSelectedCategory] = useState("Inicio");
   const { role, isAuthenticated } = useAuth();
 
-  const [reservas, setReservas] = useState<Reserva[]>([]);
-  const [espacios, setEspacios] = useState<Espacio[]>([]);
+  const [reservas, setReservas] = useState<ReservaDtoResponse[]>([]);
+  const [espacios, setEspacios] = useState<EspacioDTOResponse[]>([]);
 
   const options = [
     "Inicio",
@@ -47,7 +30,7 @@ function AdminDashboard() {
     if (!isAuthenticated || role !== "ADMINISTRADOR") return;
 
     if (selectedCategory === "Reservas") {
-      ReservasService.getAllReservas()
+      ReservasService.getTodasReservas()
         .then((response) => {
           console.log("Datos de reservas:", response.data);
           setReservas(response.data);
@@ -57,7 +40,7 @@ function AdminDashboard() {
 
     if (selectedCategory === "Espacios") {
       // Similar para espacios
-      EspacioService.getAllEspacios()
+      EspacioService.listarEspacios()
         .then((response) => {
           console.log("Datos de espacios:", response.data);
           setEspacios(response.data);

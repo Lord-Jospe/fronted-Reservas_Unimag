@@ -7,22 +7,8 @@ import TimeSelector from "../../components/timeSelector/TimeSelector.tsx";
 import CardReservation from "../../components/cardReservation/CardReservation.tsx";
 import { useEffect, useState } from "react";
 import HorarioEspacioService from "../../services/HorarioEspacioService.ts";
-import EspacioService from "../../services/EspacioService.ts";
-import SedeService from "../../services/SedeService.ts";
-
-export interface Espacio {
-  id: number;
-  nombre: string;
-  tipo: string;
-  restricciones: string;
-  idSede: number;
-  disponible: boolean;
-}
-
-interface Sede {
-  id: number;
-  name: string;
-}
+import EspacioService, { EspacioDTOResponse } from "../../services/EspacioService.ts";
+import SedeService, { SedeDTOResponse } from "../../services/SedeService.ts";
 
 interface HorarioEspacio {
   idHorarioEspacio: number;
@@ -44,24 +30,24 @@ const diasInverso: { [key: string]: string } = {
 };
 
 function SpaceDetail() {
-  const { id } = useParams<{ id: string }>();
-  const [space, setSpace] = useState<Espacio | null>(null);
+  const { idEspacio } = useParams<{ idEspacio: string }>();
+  const [space, setSpace] = useState<EspacioDTOResponse | null>(null);
   const [schedules, setSchedules] = useState<HorarioEspacio[]>([]);
-  const [sede, setSede] = useState<Sede | null>(null);
+  const [sede, setSede] = useState<SedeDTOResponse | null>(null);
   const [diaFiltrado, setDiaFiltrado] = useState<string>("LUNES");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
-      if (!id) return;
+      if (!idEspacio) return;
 
       try {
-        const espacioRes = await EspacioService.getEspacioById(Number(id));
-        const espacioData: Espacio = espacioRes.data;
+        const espacioRes = await EspacioService.obtenerEspacio(Number(idEspacio));
+        const espacioData: EspacioDTOResponse = espacioRes.data;
         setSpace(espacioData);
 
         const [horariosRes, sedeRes] = await Promise.all([
-          HorarioEspacioService.getHorariosPorEspacio(Number(id)),
+          HorarioEspacioService.getHorariosPorEspacio(Number(idEspacio)),
           SedeService.getSedeById(espacioData.idSede),
         ]);
 
@@ -75,7 +61,7 @@ function SpaceDetail() {
     };
 
     fetchData();
-  }, [id]);
+  }, [idEspacio]);
 
   if (loading) return <h2>Cargando...</h2>;
   if (!space) return <h2>Espacio no encontrado</h2>;

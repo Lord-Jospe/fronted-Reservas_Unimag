@@ -1,43 +1,53 @@
-import axios from "axios";
+import axios from 'axios';
 
-// URL base de la API
-const API_URL = "http://localhost:8080/api/sedes";
+// DTO para crear o actualizar una sede
+export interface SedeDTORequest {
+  name: string;
+}
 
-// Función para obtener el token desde localStorage o donde lo guardes
-const getAuthHeaders = () => {
-  const token = localStorage.getItem("token"); // o usa cookies si es tu caso
-  return {
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  };
-};
+// DTO de respuesta desde el backend
+export interface SedeDTOResponse {
+  id: number;
+  name: string;
+}
 
-const SedeService = {
-  // GET /api/sedes
-  getAllSedes: () => {
-    return axios.get(API_URL, getAuthHeaders());
+// Instancia de axios configurada
+const apiClient = axios.create({
+  baseURL: 'http://localhost:8080/api/sedes',
+  headers: {
+    'Content-Type': 'application/json',
   },
+});
 
-  // GET /api/sedes/{id}
-  getSedeById: (id: number) => {
-    return axios.get(`${API_URL}/${id}`, getAuthHeaders());
-  },
-
-  // POST /api/sedes
-  createSede: (data: { nombre: string }) => {
-    return axios.post(API_URL, data, getAuthHeaders());
-  },
-
-  // PUT /api/sedes/{id}
-  updateSede: (id: number, data: { nombre: string }) => {
-    return axios.put(`${API_URL}/${id}`, data, getAuthHeaders());
-  },
-
-  // DELETE /api/sedes/{id}
-  deleteSede: (id: number) => {
-    return axios.delete(`${API_URL}/${id}`, getAuthHeaders());
+// Interceptor para añadir token JWT
+apiClient.interceptors.request.use((config) => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
   }
-};
+  return config;
+});
 
-export default SedeService;
+class SedeService {
+  crearSede(dto: SedeDTORequest) {
+    return apiClient.post<SedeDTOResponse>('', dto);
+  }
+
+  listarSedes() {
+    return apiClient.get<SedeDTOResponse[]>('');
+  }
+
+  getSedeById(id: number) {
+    return apiClient.get<SedeDTOResponse>(`/${id}`);
+  }
+
+  actualizarSede(id: number, dto: SedeDTORequest) {
+    return apiClient.put<SedeDTOResponse>(`/${id}`, dto);
+  }
+
+  eliminarSede(id: number) {
+    return apiClient.delete<void>(`/${id}`);
+  }
+}
+
+export default new SedeService();

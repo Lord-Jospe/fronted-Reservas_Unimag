@@ -11,8 +11,8 @@ export interface EspacioDTOResquest {
 }
 // DTO de respuesta para un espacio
 export interface EspacioDTOResponse {
-  idEspacio: number;
-  disponible: string;
+  id: number;
+  disponible: boolean;
   nombre: string;
   restricciones: string;
   tipo: string;

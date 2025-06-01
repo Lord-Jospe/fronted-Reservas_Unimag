@@ -3,8 +3,14 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Navbar from "../../components/navbar/Navbar";
 
-import { Espacio } from "../../pages/SpaceDetail/SpaceDetail";
-import EspacioService from "../../services/EspacioService";
+import EspacioService, {
+  EspacioDTOResponse,
+} from "../../services/EspacioService";
+import SchedulesSpace from "../../components/schedulesSpaces/SchedulesSpaces";
+import { HorarioEspacioDtoResponse } from "../../services/HorarioEspacioService";
+import ReservaEstudianteService, {
+  ReservaEstDtoRequest,
+} from "../../services/ReservaEstudianteService";
 
 //Función para obtener la fecha actual en formato YYYY-MM-DD
 function obtenerFechaActual(): string {
@@ -16,33 +22,72 @@ function obtenerFechaActual(): string {
   return `${anio}-${mes}-${dia}`;
 }
 
+//Función para obtener el idEstudiante del token:
+function decodeJWT(token: string): any {
+  try {
+    const payload = token.split('.')[1];
+    const decoded = atob(payload);
+    return JSON.parse(decoded);
+  } catch (error) {
+    console.error("Error al decodificar el token:", error);
+    return null;
+  }
+}
+
+
 function ConfirmReservationPage() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { dia, horaInicio, horaFin, idEspacio, nombreSede } = location.state || {};
+  const { dia, horaInicio, horaFin, idEspacio, nombreSede } =
+    location.state || {};
   const [motivo, setMotivo] = useState("");
+  const [fechaSeleccionada, setFechaSeleccionada] = useState(
+    obtenerFechaActual()
+  );
+  const [horarioSeleccionado, setHorarioSeleccionado] =
+    useState<HorarioEspacioDtoResponse | null>(null);
 
+  const [space, setSpace] = useState<EspacioDTOResponse | null>(null);
 
-  const [space, setSpace] = useState<Espacio | null>(null);
-
- useEffect(() => {
+  useEffect(() => {
     const fetchData = async () => {
       if (!idEspacio) return;
 
       try {
-        const espacioRes = await EspacioService.getEspacioById(Number(idEspacio));
-        const espacioData: Espacio = espacioRes.data;
+        const espacioRes = await EspacioService.obtenerEspacio(
+          Number(idEspacio)
+        );
+        const espacioData: EspacioDTOResponse = espacioRes.data;
         setSpace(espacioData);
       } catch (error) {
         console.error("Error al obtener el espacio:", error);
       }
     };
-        fetchData();
+    fetchData();
   }, [idEspacio]);
 
+  const handleConfirmar = async () => {
+    if (!horarioSeleccionado) {
+      alert("Selecciona un horario antes de confirmar.");
+      return;
+    }
+    const reserva: ReservaEstDtoRequest = {
+      estado: "PENDIENTE",
+      fecha: fechaSeleccionada,
+      motivo,
+      idEstudiante: 2, //obtener el ID del estudiante de tu contexto o sesión
+      idHorarioEspacio: horarioSeleccionado.idHorarioEspacio,
+    };
 
-  const handleConfirmar = () => {
-    // Aquí puedes enviar los datos al backend o mostrar un mensaje
+    try {
+      // Asumiendo que ya tienes el ID del estudiante disponible (ej: por sesión)
+      await ReservaEstudianteService.guardarReserva(1, reserva);
+      alert("Reserva confirmada");
+      navigate("/");
+    } catch (error) {
+      console.error("Error al guardar la reserva:", error);
+      alert("Hubo un error al confirmar la reserva.");
+    }
     console.log({ dia, horaInicio, horaFin, idEspacio, motivo });
 
     // Simular redirección después de guardar
@@ -77,12 +122,21 @@ function ConfirmReservationPage() {
           </div>
           <div className="form-row">
             <h4>Fecha</h4>
-            <input type="date" min={obtenerFechaActual()} />
+            <input
+              type="date"
+              min={obtenerFechaActual()}
+              value={fechaSeleccionada}
+              onChange={(e) => setFechaSeleccionada(e.target.value)}
+            />
           </div>
         </div>
         <div className="horario-content">
           <h4>Horarios Disponible en esa fecha</h4>
-          {/*Poner aca la logica de mostrar los horarios disponible para el idEspacio*/}
+          <SchedulesSpace
+            idEspacio={idEspacio}
+            fecha={fechaSeleccionada}
+            onSelectHorario={setHorarioSeleccionado}
+          />
         </div>
         <div className="reservation-details">
           <h4>Motivo de la reserva:</h4>

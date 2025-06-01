@@ -41,7 +41,7 @@ const AppRouter = createBrowserRouter([
         element: <HomePage />,
       },
       {
-        path: "space/:id",
+        path: "space/:idEspacio",
         element: <SpaceDetail />,
       },
       {

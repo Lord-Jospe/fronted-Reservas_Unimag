@@ -1,14 +1,24 @@
 // services/HorarioEspacioService.ts
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 
-interface HorarioEspacioDtoRequest {
-  idHorarioEspacio?: number; // Opcional si lo autogenera el backend
-  dia: string;               // Por ejemplo: "LUNES"
-  horaInicio: string;        // Formato "HH:mm", ejemplo: "08:00"
-  horaFin: string;           // Formato "HH:mm", ejemplo: "10:00"
+// Interfaces
+export interface HorarioEspacioDtoResponse {
+  idHorarioEspacio: number;
+  dia: string;
+  horaInicio: string;
+  horaFin: string;
   idEspacio: number;
 }
 
+export interface HorarioEspacioDtoRequest {
+  idHorarioEspacio?: number;
+  dia: string;
+  horaInicio: string;
+  horaFin: string;
+  idEspacio: number;
+}
+
+// Axios instance
 const apiClient = axios.create({
   baseURL: "http://localhost:8080/api/horarios-espacios",
   headers: {
@@ -16,7 +26,7 @@ const apiClient = axios.create({
   },
 });
 
-// Middleware para agregar token JWT
+// Middleware para token JWT
 apiClient.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
   if (token) {
@@ -25,48 +35,47 @@ apiClient.interceptors.request.use((config) => {
   return config;
 });
 
+// Servicio
 class HorarioEspacioService {
-  // GET /api/horarios-espacios
-  getAllHorarios() {
+  // GET todos los horarios
+  getAllHorarios(): Promise<AxiosResponse<HorarioEspacioDtoResponse[]>> {
     return apiClient.get("/");
   }
 
-  // GET /api/horarios-espacios/{id}
-  getHorarioById(id: number) {
+  // GET horario por ID
+  getHorarioById(id: number): Promise<AxiosResponse<HorarioEspacioDtoResponse>> {
     return apiClient.get(`/${id}`);
   }
 
-  // GET /api/horarios-espacios/por-dia?dia=LUNES
-  getHorariosPorDia(dia: string) {
-    return apiClient.get(`/por-dia`, {
-      params: { dia },
-    });
+  // GET horarios por día
+  getHorariosPorDia(dia: string): Promise<AxiosResponse<HorarioEspacioDtoResponse[]>> {
+    return apiClient.get("/por-dia", { params: { dia } });
   }
 
-  // GET /api/horarios-espacios/por-espacio/{id}
-  getHorariosPorEspacio(idEspacio: number) {
+  // GET horarios por espacio
+  getHorariosPorEspacio(idEspacio: number): Promise<AxiosResponse<HorarioEspacioDtoResponse[]>> {
     return apiClient.get(`/por-espacio/${idEspacio}`);
   }
 
-  // GET /api/horarios-espacios/por-espacio-y-dia?dia=LUNES&idEspacio=1
-  getHorariosPorEspacioYDia(dia: string, idEspacio: number) {
-    return apiClient.get(`/por-espacio-y-dia`, {
+  // GET horarios por espacio y día
+  getHorariosPorEspacioYDia(dia: string, idEspacio: number): Promise<AxiosResponse<HorarioEspacioDtoResponse[]>> {
+    return apiClient.get("/por-espacio-y-dia", {
       params: { dia, idEspacio },
     });
   }
 
-  // POST /api/horarios-espacios
-  crearHorario(dto: HorarioEspacioDtoRequest) {
+  // POST crear horario
+  crearHorario(dto: HorarioEspacioDtoRequest): Promise<AxiosResponse<HorarioEspacioDtoResponse>> {
     return apiClient.post("/", dto);
   }
 
-  // PUT /api/horarios-espacios/{id}
-  actualizarHorario(id: number, dto: HorarioEspacioDtoRequest) {
+  // PUT actualizar horario
+  actualizarHorario(id: number, dto: HorarioEspacioDtoRequest): Promise<AxiosResponse<HorarioEspacioDtoResponse>> {
     return apiClient.put(`/${id}`, dto);
   }
 
-  // DELETE /api/horarios-espacios/{id}
-  borrarHorario(id: number) {
+  // DELETE borrar horario
+  borrarHorario(id: number): Promise<AxiosResponse<void>> {
     return apiClient.delete(`/${id}`);
   }
 }

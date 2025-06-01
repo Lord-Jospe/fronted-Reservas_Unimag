@@ -5,6 +5,7 @@ import Navbar from "../../components/navbar/Navbar";
 import Sidebar from "../../components/sidebar/Sidebar";
 
 
+
 const categoryMap: Record<string, string> = {
   Canchas: "CANCHAS",
   Auditorios: "AUDITORIOS",
