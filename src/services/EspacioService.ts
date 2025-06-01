@@ -23,6 +23,12 @@ class EspacioService {
     getAllEspacios() {
         return apiClient.get("/espacios");
     }
+
+    getEspacioById(id: number) {
+        return apiClient.get(`/espacios/${id}`);
+    }
 }
+
+
 
 export default new EspacioService();

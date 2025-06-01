@@ -1,33 +1,23 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./homePage.css";
 import CardsList from "../../components/cardsList/CardsList";
 import Navbar from "../../components/navbar/Navbar";
 import Sidebar from "../../components/sidebar/Sidebar";
-import SedeService from "../../services/SedeService";
+
 
 const categoryMap: Record<string, string> = {
-  Canchas: "Cancha",
-  Auditorios: "Auditorio",
-  Cubículos: "Cubículo",
-  Salones: "Salon",
-  "Zonas comunes": "zona común",
-  "Salones de Audiovisuales": "salon de audiovisuales",
+  Canchas: "CANCHAS",
+  Auditorios: "AUDITORIOS",
+  Cubículos: "CUBÍCULOS",
+  Salones: "SALONES",
+  "Zonas comunes": "ZONAS_COMUNES",
+  "Salones de Audiovisuales": "SALONES_AUDIVISUALES",
 };
 
 const HomePage = () => {
   const [selectedCategory, setSelectedCategory] = useState("Canchas");
 
-  useEffect(() => {
-    // Aquí podrías cargar datos iniciales si es necesario
-    // Por ejemplo, cargar las sedes o espacios disponibles
-    SedeService.getAllSedes()
-      .then((response) => {
-        console.log("Sedes cargadas:", response.data);
-      })
-      .catch((error) => {
-        console.error("Error al cargar las sedes:", error);
-      });
-  });
+
   const options = [
     "Canchas",
     "Auditorios",

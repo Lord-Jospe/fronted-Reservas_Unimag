@@ -2,7 +2,7 @@ import "./ConfirmReservationPage.css";
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Navbar from "../../components/navbar/Navbar";
-import spaces from "../../services/spaces";
+import spaces from "../../services/EspacioService";
 
 function obtenerFechaActual(): string {
   const hoy = new Date();

@@ -2,6 +2,8 @@ import "./cards.css";
 import { MapPin } from "lucide-react";
 import image from "../../assets/canchas.png";
 import { useNavigate } from "react-router-dom";
+
+//Propos de espacios para el componente Cards
 type SpaceCardProps = {
   id: number;
   title: string;
