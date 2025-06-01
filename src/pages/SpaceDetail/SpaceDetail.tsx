@@ -10,7 +10,7 @@ import HorarioEspacioService from "../../services/HorarioEspacioService.ts";
 import EspacioService from "../../services/EspacioService.ts";
 import SedeService from "../../services/SedeService.ts";
 
-interface Espacio {
+export interface Espacio {
   id: number;
   nombre: string;
   tipo: string;
@@ -129,6 +129,7 @@ function SpaceDetail() {
                   horaFin={schedule.horaFin}
                   diaSemana={schedule.dia}
                   idEspacio={space.id}
+                  nombreSede={nombreSede}
                 />
               ))
             )}

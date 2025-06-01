@@ -1,24 +1,28 @@
 import { useNavigate } from "react-router-dom";
 import "./cardReservation.css"
 
+
+
 type CardReservationProps = {
   horaInicio: string;
   horaFin: string;
   diaSemana: string;
   idEspacio: number;
+  nombreSede: string;
 };
 
 function CardReservation({
   horaInicio,
   horaFin,
   diaSemana,
-  idEspacio
+  idEspacio,
+  nombreSede
 }: CardReservationProps) {
   
   const navigate = useNavigate();
   const handleClick = () => {
     navigate("/confirm-reservation", {
-      state: { diaSemana, horaInicio, horaFin, idEspacio }
+      state: { diaSemana, horaInicio, horaFin, idEspacio, nombreSede} 
     });
   };
 

@@ -1,9 +1,12 @@
 import "./ConfirmReservationPage.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Navbar from "../../components/navbar/Navbar";
-import spaces from "../../services/EspacioService";
 
+import { Espacio } from "../../pages/SpaceDetail/SpaceDetail";
+import EspacioService from "../../services/EspacioService";
+
+//Función para obtener la fecha actual en formato YYYY-MM-DD
 function obtenerFechaActual(): string {
   const hoy = new Date();
   const dia = String(hoy.getDate()).padStart(2, "0");
@@ -16,15 +19,31 @@ function obtenerFechaActual(): string {
 function ConfirmReservationPage() {
   const location = useLocation();
   const navigate = useNavigate();
-  const { dia, horaInicio, horaFin, fecha, idEspacio } = location.state || {};
-
+  const { dia, horaInicio, horaFin, idEspacio, nombreSede } = location.state || {};
   const [motivo, setMotivo] = useState("");
-  const space = spaces.find((s) => s.id === Number(idEspacio));
-  if (!space) return <p>Espacio no encontrado.</p>;
+
+
+  const [space, setSpace] = useState<Espacio | null>(null);
+
+ useEffect(() => {
+    const fetchData = async () => {
+      if (!idEspacio) return;
+
+      try {
+        const espacioRes = await EspacioService.getEspacioById(Number(idEspacio));
+        const espacioData: Espacio = espacioRes.data;
+        setSpace(espacioData);
+      } catch (error) {
+        console.error("Error al obtener el espacio:", error);
+      }
+    };
+        fetchData();
+  }, [idEspacio]);
+
 
   const handleConfirmar = () => {
     // Aquí puedes enviar los datos al backend o mostrar un mensaje
-    console.log({ dia, horaInicio, horaFin, fecha, idEspacio, motivo });
+    console.log({ dia, horaInicio, horaFin, idEspacio, motivo });
 
     // Simular redirección después de guardar
     alert("Reserva confirmada");
@@ -32,6 +51,7 @@ function ConfirmReservationPage() {
   };
 
   if (!location.state) return <p>Datos no disponibles.</p>;
+  if (!space) return <p>Espacio no encontrado.</p>;
 
   return (
     <>
@@ -44,16 +64,16 @@ function ConfirmReservationPage() {
         <div className="form-content">
           <div className="form-row">
             <h4>Tipo</h4>
-            <input type="text" value={space.type} disabled />
+            <input type="text" value={space.tipo} disabled />
           </div>
           <div className="form-row">
             <h4>Sede</h4>
-            <input type="text" value={space.location} disabled />
+            <input type="text" value={nombreSede} disabled />
           </div>
 
           <div className="form-row">
             <h4>Nombre</h4>
-            <input type="text" value={space.title} disabled />
+            <input type="text" value={space.nombre} disabled />
           </div>
           <div className="form-row">
             <h4>Fecha</h4>
