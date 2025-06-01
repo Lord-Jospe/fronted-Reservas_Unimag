@@ -1,10 +1,27 @@
 //const ESPACIO_BASE_REST_API_URL = 'http://localhost:8080/api/espacios';
 import axios from 'axios';
 
+// DTO de solicitud para crear o actualizar un espacio
+export interface EspacioDTOResquest {
+  disponible: string;
+  nombre: string;
+  restricciones: string;
+  tipo: string;
+  idSede: number;
+}
+// DTO de respuesta para un espacio
+export interface EspacioDTOResponse {
+  idEspacio: number;
+  disponible: string;
+  nombre: string;
+  restricciones: string;
+  tipo: string;
+  idSede: number;
+}
 
 // Crea una instancia de axios configurada
 const apiClient = axios.create({
-  baseURL: 'http://localhost:8080/api',
+  baseURL: 'http://localhost:8080/api/espacios',
   headers: {
     'Content-Type': 'application/json'
   }
@@ -20,15 +37,29 @@ apiClient.interceptors.request.use((config) => {
 });
 
 class EspacioService {
-    getAllEspacios() {
-        return apiClient.get("/espacios");
-    }
+  crearEspacio(dto: EspacioDTOResquest) {
+    return apiClient.post<EspacioDTOResponse>("", dto);
+  }
 
-    getEspacioById(id: number) {
-        return apiClient.get(`/espacios/${id}`);
-    }
+  listarEspacios() {
+    return apiClient.get<EspacioDTOResponse[]>("");
+  }
+
+  obtenerEspacio(id: number) {
+    return apiClient.get<EspacioDTOResponse>(`/${id}`);
+  }
+
+  actualizarEspacio(id: number, dto: EspacioDTOResquest) {
+    return apiClient.put<EspacioDTOResponse>(`/${id}`, dto);
+  }
+
+  eliminarEspacio(id: number) {
+    return apiClient.delete<void>(`/${id}`);
+  }
+
+  listarPorSede(sedeId: number) {
+    return apiClient.get<EspacioDTOResponse[]>(`/sede/${sedeId}`);
+  }
 }
-
-
 
 export default new EspacioService();
