@@ -5,10 +5,10 @@ import ProtectedRoute from "./ProtectedRoute";
 import PublicRoute from "./PublicRoute";
 import SpaceDetail from "../pages/SpaceDetail/SpaceDetail";
 import ConfirmReservationPage from "../pages/confirmReservationPage/confirmReservationPage";
-import MyReservations from "../pages/myReservations/MyReservations";
 import UserProfile from "../pages/userProfilePage/UserProfile";
 import RoleRoute from "./RoleRoute";
 import AdminDashboard from "../pages/adminDashboard/AdminDashboard";
+import StudentPanelPage from "../pages/studentPanelPage/StudentPanelPage";
 
 // ← si ya creaste el RoleRoute
 // import RoleRoute from "./RoleRoute";
@@ -49,8 +49,8 @@ const AppRouter = createBrowserRouter([
         element: <ConfirmReservationPage />,
       },
       {
-        path: "reservations",
-        element: <MyReservations />,
+        path: "student-panel",
+        element: <StudentPanelPage />,
       },
       {
         path: "profile",
