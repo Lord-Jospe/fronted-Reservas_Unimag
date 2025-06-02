@@ -27,11 +27,10 @@ function ProblemPage() {
 
     try {
       await ProblemaEstudianteService.crearProblema(Number(idEstudiante), {
-        idEspacio: space.id,
+        espacioId: space.id,
         estado: "PENDIENTE",
         descripcion,
         fecha,
-        idEsdtudiante: Number(idEstudiante),
       });
 
       alert("Problema reportado exitosamente.");

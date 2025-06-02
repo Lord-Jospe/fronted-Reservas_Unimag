@@ -2,11 +2,10 @@ import axios from "axios";
 
 // DTO de solicitud (para actualización)
 export interface ProblemaDtoRequest {
-  idEspacio: number; // Opcional, si se crea un problema sin espacio
+  espacioId: number; // Opcional, si se crea un problema sin espacio
   estado: string;
   descripcion: string;
   fecha: string;
-  idEsdtudiante: number;
 
 }
 

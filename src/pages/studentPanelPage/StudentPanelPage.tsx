@@ -77,7 +77,7 @@ function StudentPanelPage() {
                 { label: "Descripción", field: "descripcion" },
                 { label: "Estado", field: "estado" },
                  { label: "Fecha", field: "fecha" },
-                { label: "idEspacio", field: "idEspacio" },
+                { label: "idEspacio", field: "espacioId" },
                 { label: "idEstudiante", field: "idEstudiante" },
               ]}
               datos={problemas}
