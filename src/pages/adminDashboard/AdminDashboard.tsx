@@ -4,6 +4,7 @@ import Sidebar from "../../components/sidebar/Sidebar";
 import SidebarAdmin from "../../components/sidebar/SidebarAdmin";
 import "./adminDashboard.css";
 import ReservasService, {
+  ReservaDtoRequest,
   ReservaDtoResponse,
 } from "../../services/ReservaService";
 import EspacioService, {
@@ -21,6 +22,9 @@ import HistorialReservaService, {
 import EstudianteService, {
   EstudianteDTOResponse,
 } from "../../services/EstudianteService";
+import ReservaService from "../../services/ReservaService";
+import EditModal from "../../components/editModal/editModal";
+import { toast } from "react-toastify";
 
 function AdminDashboard() {
   const [selectedCategory, setSelectedCategory] = useState("Inicio");
@@ -33,7 +37,6 @@ function AdminDashboard() {
     HistorialReservaDtoResponse[]
   >([]);
   const [problemas, setProblemas] = useState<ProblemaDtoResponse[]>([]);
-
   const [correoUsuario, setCorreoUsuario] = useState<string>("");
 
   const options = [
@@ -107,6 +110,30 @@ function AdminDashboard() {
     }
   }, [selectedCategory, isAuthenticated, role]);
 
+  const refreshReservas = () => {
+  ReservasService.getTodasReservas()
+    .then((response) => setReservas(response.data))
+    .catch((error) => console.error("Error al obtener reservas:", error));
+};
+
+  const handleEdit = (reserva: ReservaDtoResponse) => {
+  EditModal<ReservaDtoResponse>({
+    title: "Cambiar estado de la Reserva",
+    item: reserva,
+    fields: [
+      { label: "Estado", field: "estadoReserva", type: "string" },
+    ],
+    onConfirm: async (updated) => {
+      try {
+        await ReservaService.actualizarReserva(updated.idReserva, updated); // llamado al servicio
+        toast.success("Reserva actualizada");
+        refreshReservas(); // actualiza tabla si es necesario
+      } catch (error) {
+        toast.error("Error al actualizar");
+      }
+    }
+  });
+};
   return (
     <>
       <Navbar />
@@ -134,10 +161,7 @@ function AdminDashboard() {
                 { label: "Motivo", field: "motivo" },
               ]}
               datos={reservas}
-              onEditClick={(item) => {
-                console.log("Editar problema:", item);
-                // Aquí puedes implementar la lógica para editar el problema
-              }}
+              onEditClick={handleEdit}
             />
           )}
 
