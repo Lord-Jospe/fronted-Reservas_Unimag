@@ -1,34 +1,94 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Navbar from "../../components/navbar/Navbar";
 import Sidebar from "../../components/sidebar/Sidebar";
 import "./studentPanelPage.css";
+import ReservaEstudianteService, { ReservaDtoResponse } from "../../services/ReservaEstudianteService";
+import { ProblemaDtoResponse } from "../../services/ProblemaAdminService";
+import ProblemaEstudianteService from "../../services/ProblemaEstudianteService";
+import TableData from "../../components/tableData/TableData";
 
 function StudentPanelPage() {
+  const [selectedCategory, setSelectedCategory] = useState("Mis Reservas");
+  const [reservas, setReservas] = useState<ReservaDtoResponse[]>([]);
+  const [problemas, setProblemas] = useState<ProblemaDtoResponse[]>([]);
+  const idEstudiante = Number(localStorage.getItem("idEstudiante"));
+
+
+  const options = [
+    "Mis Reservas",
+    "Reportes de problemas",
+    "Notificaciones",
+    "Configuración",
+  ];
+
+
+  useEffect(() => {
+      if (selectedCategory === "Mis Reservas") {
+        ReservaEstudianteService.getReservasPorEstudiante(idEstudiante)
+          .then((response) => {
+            console.log("Datos de reservas:", response.data);
+            setReservas(response.data);
+          })
+          .catch((error) => console.error("Error al obtener reservas:", error));
+      }
   
-   const [selectedCategory, setSelectedCategory] = useState("Mis Reservas");
-  
-  
-    const options = [
-      "Mis Reservas",
-      "Reportes de problemas",
-      "Notificaciones",
-      "Configuración",
-    ];
+      if (selectedCategory === "Reportes de problemas") {
+
+        ProblemaEstudianteService.getProblemasPorEstudiante(idEstudiante)
+          .then((response) => {
+            console.log("Datos de reportes:", response.data);
+            setProblemas(response.data);
+          })
+          .catch((error) => console.error("Error al obtener reportes:", error));
+      }
+    }, [selectedCategory, idEstudiante]);
+
 
   return (
     <>
-    <Navbar/>
-    <div className="contenedor-principal">
-      <Sidebar onSelectCategory={setSelectedCategory}
+      <Navbar />
+      <div className="contenedor-principal">
+        <Sidebar
+          onSelectCategory={setSelectedCategory}
           selected={selectedCategory}
-          options={options}/>
+          options={options}
+        />
 
-      <div className="contenedor-contenido">
-        <h3>
-          {selectedCategory}
-        </h3>
+        <div className="contenedor-contenido">
+          <h3>{selectedCategory}</h3>
+            {selectedCategory === "Mis Reservas" && (
+            <TableData
+              columnas={[
+                { label: "ID", field: "idReserva" },
+                { label: "Estado", field: "estadoReserva" },
+                { label: "Fecha", field: "fecha" },
+                { label: "Estudiante", field: "idEstudiante" },
+                { label: "Horario", field: "idHorarioEspacio" },
+                { label: "Motivo", field: "motivo" },
+              ]}
+              datos={reservas}
+            />
+          )}
+
+          {selectedCategory === "Reportes de problemas" && (
+            <TableData
+              columnas={[
+                { label: "ID", field: "idProblema" },
+                { label: "Descripción", field: "descripcion" },
+                { label: "Estado", field: "estado" },
+                 { label: "Fecha", field: "fecha" },
+                { label: "idEspacio", field: "idEspacio" },
+                { label: "idEstudiante", field: "idEstudiante" },
+              ]}
+              datos={problemas}
+              onEditClick={(item) => {
+                console.log("Editar problema:", item);
+                // Aquí puedes implementar la lógica para editar el problema
+              }}
+              />
+            )}
+        </div>
       </div>
-    </div>
     </>
   );
 }

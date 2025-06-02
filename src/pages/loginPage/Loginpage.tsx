@@ -19,6 +19,7 @@ function LoginPage() {
       const token = response.data.token;
       const role = response.data.rol;
       const idEstudiante = response.data.idEstudiante;
+      console.log("Datos de respuesta:", response.data);
 
       if (!idEstudiante) {
       setError("No se pudo obtener el ID del estudiante");

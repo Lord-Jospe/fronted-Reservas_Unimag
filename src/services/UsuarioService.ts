@@ -1,17 +1,70 @@
-const USUARIO_BASE_REST_API_URL = 'http://localhost:8080/api/usuarios';
-//const USUARIO_GET_BY_ID = '/:id';
-const USUARIO_AUTHENTICATE = 'http://localhost:8080/api/auth/authentication';
-
 import axios from 'axios';
 
-class EspacioService {
-    getAllService() {
-        return axios.get(USUARIO_BASE_REST_API_URL );
-    }
-    
-    loginUsuario(correo: string, contrasena: string) {
-        return axios.post(USUARIO_AUTHENTICATE, {correo, contrasena});
-    }
+// Cliente con interceptor para token JWT
+const apiClient = axios.create({
+  baseURL: 'http://localhost:8080/api/usuarios',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
+apiClient.interceptors.request.use((config) => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
+// URL para login (fuera del interceptor de usuarios)
+const USUARIO_AUTHENTICATE = 'http://localhost:8080/api/auth/authentication';
+
+export interface UsuarioDTOCreate {
+  nombre: string;
+  correo: string;
+  contrasena: string;
+  rol: string;
 }
 
-export default new EspacioService();
+export interface UsuarioDTOResponse {
+  id: number;
+  nombre: string;
+  correo: string;
+  rol: string;
+}
+
+class UsuarioService {
+  getAllUsuarios() {
+    return apiClient.get<UsuarioDTOResponse[]>('/');
+  }
+
+  getUsuarioById(id: number) {
+    return apiClient.get<UsuarioDTOResponse>(`/${id}`);
+  }
+
+  getUsuarioByCorreo(correo: string) {
+    return apiClient.get<UsuarioDTOResponse>('/por-correo', {
+      params: { correo },
+    });
+  }
+
+  crearUsuario(usuario: UsuarioDTOCreate) {
+    return apiClient.post<UsuarioDTOResponse>('/', usuario);
+  }
+
+  actualizarUsuario(usuario: UsuarioDTOCreate) {
+    return apiClient.put<UsuarioDTOResponse>('/', usuario);
+  }
+
+  eliminarUsuario(correo: string) {
+    return apiClient.delete<void>('/', {
+      params: { correo },
+    });
+  }
+
+  loginUsuario(correo: string, contrasena: string) {
+    return axios.post(USUARIO_AUTHENTICATE, { correo, contrasena });
+  }
+}
+
+export default new UsuarioService();

@@ -1,25 +1,23 @@
-.main-container {
+.contenedor-principal {
+  display: flex;
+}
 
+/* Contenedor de los sidebars: en columna con espacio entre ellos */
+.contenedor-sidebars {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;  /* espacio vertical entre los dos sidebars */
+  padding: 15px;
+}
+
+/* Contenedor del contenido principal al lado derecho */
+.contenedor-contenido {
 
 }
 
-.sidebar-container{
-    display: flex;
-    flex-direction: column;
-
-}
-
-.title-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem;
-    justify-content: center
-}
-
-.conntent-container {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: 100%;
+/* Opcional: estilos para que h3 no quede tan pegado */
+.contenedor-contenido h3 {
+  margin-bottom: 20px;
+  font-weight: 600;
+  color: #333;
 }

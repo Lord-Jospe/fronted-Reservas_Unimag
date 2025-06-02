@@ -3,11 +3,15 @@ import Navbar from "../../components/navbar/Navbar";
 import Sidebar from "../../components/sidebar/Sidebar";
 import SidebarAdmin from "../../components/sidebar/SidebarAdmin";
 import "./adminDashboard.css";
-import ReservasService, { ReservaDtoResponse } from "../../services/ReservaService";
+import ReservasService, {
+  ReservaDtoResponse,
+} from "../../services/ReservaService";
+import EspacioService, {
+  EspacioDTOResponse,
+} from "../../services/EspacioService";
+import TableData from "../../components/tableData/TableData";
 import { useAuth } from "../../auth/AuthProvider";
-import EspacioService, { EspacioDTOResponse } from "../../services/EspacioService";
-import TableData from "../../components/tableReservation/TableData";
-
+import { jwtDecode } from "jwt-decode";
 
 function AdminDashboard() {
   const [selectedCategory, setSelectedCategory] = useState("Inicio");
@@ -15,6 +19,7 @@ function AdminDashboard() {
 
   const [reservas, setReservas] = useState<ReservaDtoResponse[]>([]);
   const [espacios, setEspacios] = useState<EspacioDTOResponse[]>([]);
+  const [correoUsuario, setCorreoUsuario] = useState<string>("");
 
   const options = [
     "Inicio",
@@ -26,47 +31,55 @@ function AdminDashboard() {
     "Usuarios",
   ];
 
+  //Obtener el usuario autenticado
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      try {
+        const decoded: any = jwtDecode(token);
+        setCorreoUsuario(decoded.correo || decoded.sub); 
+      } catch (error) {
+        console.error("Error al decodificar token:", error);
+      }
+    }
+  }, []);
+
   useEffect(() => {
     if (!isAuthenticated || role !== "ADMINISTRADOR") return;
 
     if (selectedCategory === "Reservas") {
       ReservasService.getTodasReservas()
         .then((response) => {
-          console.log("Datos de reservas:", response.data);
           setReservas(response.data);
         })
         .catch((error) => console.error("Error al obtener reservas:", error));
     }
 
     if (selectedCategory === "Espacios") {
-      // Similar para espacios
       EspacioService.listarEspacios()
         .then((response) => {
-          console.log("Datos de espacios:", response.data);
           setEspacios(response.data);
         })
         .catch((error) => console.error("Error al obtener espacios:", error));
     }
-  }, [selectedCategory, espacios, isAuthenticated, role]);
+  }, [selectedCategory, isAuthenticated, role]);
 
-  console.log("Selected Category:", selectedCategory);
-  console.log("Reservas Data:", espacios);
-  //console.log("Espacios Data:", reservas);
-  console.log("Token:", localStorage.getItem("token"));
   return (
     <>
       <Navbar />
-      <div className="main-container">
-        <div className="sidebar-container">
-          <SidebarAdmin correo="John.doe@gamil.com" nombre="John Doe" />
+      <div className="contenedor-principal">
+        <div className="contenedor-sidebars">
+          <SidebarAdmin correo={correoUsuario} nombre="Administrador" />
           <Sidebar
             onSelectCategory={setSelectedCategory}
             selected={selectedCategory}
             options={options}
           />
         </div>
-        <div className="content-container">
-          <h3 className="title-content">{selectedCategory}</h3>
+
+        <div className="contenedor-contenido">
+          <h3>{selectedCategory}</h3>
+
           {selectedCategory === "Reservas" && (
             <TableData
               columnas={[
@@ -78,6 +91,10 @@ function AdminDashboard() {
                 { label: "Motivo", field: "motivo" },
               ]}
               datos={reservas}
+              onEditClick={(item) => {
+                console.log("Editar problema:", item);
+                // Aquí puedes implementar la lógica para editar el problema
+              }}
             />
           )}
 
@@ -87,11 +104,15 @@ function AdminDashboard() {
                 { label: "ID", field: "id" },
                 { label: "Nombre", field: "nombre" },
                 { label: "Tipo", field: "tipo" },
-                 { label: "Restricciones", field: "restricciones" },
+                { label: "Restricciones", field: "restricciones" },
                 { label: "Ubicación", field: "idSede" },
                 { label: "Disponible", field: "disponible" },
               ]}
               datos={espacios}
+              onEditClick={(item) => {
+                console.log("Editar problema:", item);
+                // Aquí puedes implementar la lógica para editar el problema
+              }}
             />
           )}
         </div>
