@@ -22,18 +22,13 @@ function obtenerFechaActual(): string {
   return `${anio}-${mes}-${dia}`;
 }
 
-//Función para obtener el idEstudiante del token:
-function decodeJWT(token: string): any {
-  try {
-    const payload = token.split('.')[1];
-    const decoded = atob(payload);
-    return JSON.parse(decoded);
-  } catch (error) {
-    console.error("Error al decodificar el token:", error);
-    return null;
-  }
+// Función para obtener el día de la semana en inglés a partir de una fecha
+function getNombreDiaSemanaIngles(fechaStr: string): string {
+  const dias = ["SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"];
+  const [anio, mes, dia] = fechaStr.split("-").map(Number);
+  const date = new Date(anio, mes - 1, dia);
+  return dias[date.getDay()];
 }
-
 
 function ConfirmReservationPage() {
   const location = useLocation();
@@ -46,8 +41,9 @@ function ConfirmReservationPage() {
   );
   const [horarioSeleccionado, setHorarioSeleccionado] =
     useState<HorarioEspacioDtoResponse | null>(null);
-
   const [space, setSpace] = useState<EspacioDTOResponse | null>(null);
+  const idEstudiante = Number(localStorage.getItem("idEstudiante"));
+  const diaSeleccionado = getNombreDiaSemanaIngles(fechaSeleccionada);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -71,17 +67,36 @@ function ConfirmReservationPage() {
       alert("Selecciona un horario antes de confirmar.");
       return;
     }
+    if (motivo.trim().length < 5) {
+      alert("El motivo debe tener al menos 5 caracteres.");
+      return;
+    }
+    if (diaSeleccionado !== horarioSeleccionado.dia.toUpperCase()) {
+      alert(
+        `La fecha seleccionada no coincide con el día del horario (${horarioSeleccionado.dia}).`
+      );
+      return;
+    }
+
+    const hoy = new Date();
+    const fechaElegida = new Date(fechaSeleccionada);
+    if (fechaElegida <= hoy) {
+      alert("La fecha debe ser futura.");
+      return;
+    }
+    console.log("Confirmando reserva...");
+    console.log("IdHorarioEspacio:", horarioSeleccionado.idHorarioEspacio);
+    console.log("Fecha seleccionada:", fechaSeleccionada);
+    console.log("Motivo:", motivo);
     const reserva: ReservaEstDtoRequest = {
-      estado: "PENDIENTE",
+      idHorarioEspacio: horarioSeleccionado.idHorarioEspacio,
       fecha: fechaSeleccionada,
       motivo,
-      idEstudiante: 2, //obtener el ID del estudiante de tu contexto o sesión
-      idHorarioEspacio: horarioSeleccionado.idHorarioEspacio,
     };
 
     try {
       // Asumiendo que ya tienes el ID del estudiante disponible (ej: por sesión)
-      await ReservaEstudianteService.guardarReserva(1, reserva);
+      await ReservaEstudianteService.guardarReserva(idEstudiante, reserva);
       alert("Reserva confirmada");
       navigate("/");
     } catch (error) {
@@ -89,10 +104,6 @@ function ConfirmReservationPage() {
       alert("Hubo un error al confirmar la reserva.");
     }
     console.log({ dia, horaInicio, horaFin, idEspacio, motivo });
-
-    // Simular redirección después de guardar
-    alert("Reserva confirmada");
-    navigate("/");
   };
 
   if (!location.state) return <p>Datos no disponibles.</p>;

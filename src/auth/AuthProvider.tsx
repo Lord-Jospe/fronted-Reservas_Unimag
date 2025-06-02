@@ -6,7 +6,7 @@ interface AuthContextType {
   logout: () => void;
   role: string | null;
   token: string | null;
-  idUsuario: number | null; //
+  idEstudiante: number | null; //
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -15,7 +15,7 @@ const AuthContext = createContext<AuthContextType>({
   logout: () => {},
   role: null,
   token: null,
-  idUsuario: null, 
+  idEstudiante: null, 
   
 });
 
@@ -28,19 +28,19 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [token, setToken] = useState<string | null>(() => localStorage.getItem("token"));
   const [role, setRole] = useState<string | null>(() => localStorage.getItem("role"));
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => !!localStorage.getItem("token"));
-  const [idUsuario, setIdUsuario] = useState<number | null>(() => {
-    const storedId = localStorage.getItem("idUsuario");
+  const [idEstudiante, setidEstudiante] = useState<number | null>(() => {
+    const storedId = localStorage.getItem("idEstudiante");
     return storedId ? Number(storedId) : null;
   }); 
 
-  const login = (token: string, role: string, idUsuario: number) => {
+  const login = (token: string, role: string, idEstudiante: number) => {
     setToken(token);
     setRole(role);
-    setIdUsuario(idUsuario); // Guardar el ID del usuario
+    setidEstudiante(idEstudiante); // Guardar el ID del usuario
     setIsAuthenticated(true);
     localStorage.setItem("token", token);
     localStorage.setItem("role", role);
-    localStorage.setItem("idUsuario", String(idUsuario));
+    localStorage.setItem("idEstudiante", String(idEstudiante));
   };
 
   const logout = () => {
@@ -49,11 +49,11 @@ export function AuthProvider({ children }: AuthProviderProps) {
     setIsAuthenticated(false);
     localStorage.removeItem("token");
     localStorage.removeItem("role");
-    localStorage.removeItem("idUsuario");
+    localStorage.removeItem("idEstudiante");
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout, role, token, idUsuario}}>
+    <AuthContext.Provider value={{ isAuthenticated, login, logout, role, token, idEstudiante}}>
       {children}
     </AuthContext.Provider>
   );

@@ -11,17 +11,20 @@ type SchedulesSpaceProps = {
 };
 
 function getDiaSemana(fecha: string): string {
-  const dias = ["SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"];  const date = new Date(fecha);
+  const dias = ["SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"];
+  
+  const [anio, mes, dia] = fecha.split("-").map(Number);
+  const date = new Date(anio, mes - 1, dia); // Mes en JS empieza desde 0
   return dias[date.getDay()];
 }
 
 function SchedulesSpace({ idEspacio, fecha, onSelectHorario }: SchedulesSpaceProps) {
   const [horarios, setHorarios] = useState<HorarioEspacioDtoResponse[]>([]);
-  const diaSemana = getDiaSemana(fecha);
 
   useEffect(() => {
     const fetchHorarios = async () => {
       try {
+        const diaSemana = getDiaSemana(fecha);
         const response = await HorarioEspacioService.getHorariosPorEspacioYDia(diaSemana, idEspacio);
         setHorarios(response.data);
       } catch (error) {
@@ -45,7 +48,7 @@ function SchedulesSpace({ idEspacio, fecha, onSelectHorario }: SchedulesSpacePro
         }>
           <div className="reserva-info">
             <div className="reserva-hora">
-              🕒 <strong>{diaSemana}</strong>, {horario.horaInicio} - {horario.horaFin}
+              🕒 <strong>{horario.dia}</strong>, {horario.horaInicio} - {horario.horaFin}
             </div>
           </div>
         </div>

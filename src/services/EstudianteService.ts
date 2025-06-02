@@ -4,7 +4,8 @@ import axios from "axios";
 export interface EstudianteDTOCreate {
   codigoEstudiantil: number;
   nombre: string;
-  idUsuario: number;
+  correo: string;
+  contrasena: string;
 }
 
 // Interfaz de solicitud para actualizar un estudiante

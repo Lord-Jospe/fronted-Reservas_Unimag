@@ -22,11 +22,10 @@ apiClient.interceptors.request.use((config) => {
 // Define las interfaces para las solicitudes y respuestas de reservas
 //Interfaz de solicitud para crear una reserva
 export interface ReservaEstDtoRequest {
-  estado: string;
+  idHorarioEspacio: number;
+
   fecha: string;
   motivo: string;
-  idEstudiante: number;
-  idHorarioEspacio: number;
 }
 
 // Interfaz de respuesta para una reserva
@@ -40,11 +39,11 @@ export interface ReservaDtoResponse {
 }
 //Interfaz de solicitud para cambiar el estado de una reserva
 export interface ReservaCambioEstadoDtoRequest {
-  nuevoEstado: string; 
+  nuevoEstado: string;
 }
 
 class ReservaEstudianteService {
-// Obtener una reserva específica por estudiante e id de reserva
+  // Obtener una reserva específica por estudiante e id de reserva
   getReservaPorId(idEst: number, idReserva: number) {
     return apiClient.get<ReservaDtoResponse>(`/estudiantes/${idEst}/reservas/${idReserva}`);
   }
@@ -68,7 +67,7 @@ class ReservaEstudianteService {
   cancelarReserva(idEst: number, idReserva: number, cambioEstadoDto: ReservaCambioEstadoDtoRequest) {
     return apiClient.patch<ReservaDtoResponse>(`/estudiantes/${idEst}/reservas/${idReserva}/cancelar`, cambioEstadoDto);
   }
-    
+
 }
 
 export default new ReservaEstudianteService();
