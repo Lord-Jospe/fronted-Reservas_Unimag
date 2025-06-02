@@ -4,8 +4,7 @@ import Sidebar from "../../components/sidebar/Sidebar";
 import SidebarAdmin from "../../components/sidebar/SidebarAdmin";
 import "./adminDashboard.css";
 import ReservasService, {
-  ReservaDtoRequest,
-  ReservaDtoResponse,
+   ReservaDtoResponse,
 } from "../../services/ReservaService";
 import EspacioService, {
   EspacioDTOResponse,
@@ -46,8 +45,6 @@ function AdminDashboard() {
     "Estudiantes",
     "Historial de Reservas",
     "Reporte de problemas",
-    "Notificaciones",
-    "Configuración",
   ];
 
   //Obtener el usuario autenticado
