@@ -115,7 +115,7 @@ function ConfirmReservationPage() {
 
       <div className="confirm-reservation-container">
         <div className="title-content">
-          <h1>Confirmar Reserva</h1>
+          <h1>Crear Reserva</h1>
         </div>
         <div className="form-content">
           <div className="form-row">

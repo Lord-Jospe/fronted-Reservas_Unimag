@@ -90,7 +90,7 @@ function AdminDashboard() {
           .catch((error) =>
             console.error("Error al obtener historial de reservas:", error)
           );
-          console.log("Historial de reservas:", historialReservas);
+
         break;
 
       case "Reporte de problemas":
@@ -99,7 +99,7 @@ function AdminDashboard() {
           .catch((error) =>
             console.error("Error al obtener problemas:", error)
           );
-          console.log("Problemas:", problemas);
+
         break;
 
       default:
@@ -166,7 +166,6 @@ function AdminDashboard() {
                 { label: "Nombre", field: "nombre" },
               ]}
               datos={estudiantes}
-              
               onEditClick={(item) => console.log("Editar estudiante:", item)}
             />
           )}

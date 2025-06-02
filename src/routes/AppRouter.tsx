@@ -9,6 +9,7 @@ import UserProfile from "../pages/userProfilePage/UserProfile";
 import RoleRoute from "./RoleRoute";
 import AdminDashboard from "../pages/adminDashboard/AdminDashboard";
 import StudentPanelPage from "../pages/studentPanelPage/StudentPanelPage";
+import ProblemPage from "../pages/problemPage/ProblemPage";
 
 // ← si ya creaste el RoleRoute
 // import RoleRoute from "./RoleRoute";
@@ -55,6 +56,10 @@ const AppRouter = createBrowserRouter([
       {
         path: "profile",
         element: <UserProfile />,
+      },
+      {
+        path: "report-problem",
+        element: <ProblemPage />, 
       },
 
       // 🔒 ADMINISTRADOR (vistas en construcción)

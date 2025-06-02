@@ -1,6 +1,6 @@
 // SpaceDetail.tsx
 import "./spaceDetail.css";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Navbar from "../../components/navbar/Navbar.tsx";
 import image from "../../assets/canchasMax.png";
 import TimeSelector from "../../components/timeSelector/TimeSelector.tsx";
@@ -36,6 +36,7 @@ function SpaceDetail() {
   const [sede, setSede] = useState<SedeDTOResponse | null>(null);
   const [diaFiltrado, setDiaFiltrado] = useState<string>("LUNES");
   const [loading, setLoading] = useState(true);
+const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -83,10 +84,7 @@ function SpaceDetail() {
           <img src={image} alt="foto_espacio" className="image" />
           <div className="image-overlay">
             <h1 className="image-title">{space.nombre}</h1>
-            <button className="button-reporter">Reportar problema</button>
-            <button className="button-restriction">
-              Restricciones del lugar
-            </button>
+            <button className="button-reporter" onClick={() => navigate("/report-problem", { state: { space, nombreSede } })}>Reportar problema</button>
           </div>
         </div>
 

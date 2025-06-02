@@ -5,7 +5,7 @@ const RoleRoute = ({ allowedRoles }: { allowedRoles: string[] }) => {
   const { isAuthenticated, role } = useAuth();
 
   if (!isAuthenticated) return <Navigate to="/login" />;
-  if (!allowedRoles.includes(role || "")) return <Navigate to="/no-access" />;
+  if (!allowedRoles.includes(role || "")) return <Navigate to="/home" />;
 
   return <Outlet />;
 };
