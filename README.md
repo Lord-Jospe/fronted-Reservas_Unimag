@@ -1,30 +1,24 @@
-# React + TypeScript + Vite
+# 🏫 API Reservas Espacios Unimag - Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Una API REST robusta desarrollada con Java y Spring Boot para gestionar la reserva de espacios físicos universitarios como salones, canchas, auditorios y más.
 
-Currently, two official plugins are available:
+## 🚀 Características Principales
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## Expanding the ESLint configuration
+## 🔗 Backend
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+Esta API está conectada con un backend desarrollado por el equipo ([@AndresMes](https://github.com/Lord-Jospe) [@MatteoAngulo](https://github.com/MatteoAngulo [@LeonelP7](https://github.com/LeonelP7)). Puedes encontrarlo en:
 
-- Configure the top-level `parserOptions` property like this:
+👉 [Backend Reservas Unimag](https://github.com/Lord-Jospe/fronted-Reservas_Unimag)
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+## 👥 Autores
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+- **Joseph Ferrer** - [@Lord-Jospe](https://github.com/Lord-Jospe) - Desarrollador
+
+## 📞 Contacto
+
+🔗 **Link del Proyecto**: [https://github.com/MatteoAngulo/reservasEspaciosUnimag](https://github.com/MatteoAngulo/reservasEspaciosUnimag)
+
+---
+
+⭐ Si te ha sido útil este proyecto, ¡no olvides darle una estrella!
