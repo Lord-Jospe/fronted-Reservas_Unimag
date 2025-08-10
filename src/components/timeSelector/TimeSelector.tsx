@@ -20,7 +20,7 @@ const TimeSelector: React.FC<TimeSelectorProps> = ({ onChangeDiaActivo }) => {
 
   const [diaActivo, setDiaActivo] = useState<string>(diasDeLaSemana[0]);
   const [franjaActiva, setFranjaActiva] = useState<string>("MAÑANA");
-  const [slotSeleccionado, setSlotSeleccionado] = useState<string | null>(null);
+  //const [slotSeleccionado, setSlotSeleccionado] = useState<string | null>(null);
 
   useEffect(() => {
     onChangeDiaActivo(diaActivo); // Notifica al padre
@@ -36,7 +36,7 @@ const TimeSelector: React.FC<TimeSelectorProps> = ({ onChangeDiaActivo }) => {
             className={`segmento ${diaActivo === dia ? "activo" : ""}`}
             onClick={() => {
               setDiaActivo(dia);
-              setSlotSeleccionado(null);
+              //setSlotSeleccionado(null);
             }}
           >
             {dia}

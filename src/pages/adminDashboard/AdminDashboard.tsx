@@ -118,7 +118,7 @@ function AdminDashboard() {
     title: "Cambiar estado de la Reserva",
     item: reserva,
     fields: [
-      { label: "Estado", field: "estadoReserva", type: "string" },
+      { label: "Estado", field: "estado", type: "string" },
     ],
     onConfirm: async (updated) => {
       try {
