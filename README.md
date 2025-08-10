@@ -7,17 +7,17 @@ Una API REST robusta desarrollada con Java y Spring Boot para gestionar la reser
 
 ## 🔗 Backend
 
-Esta API está conectada con un backend desarrollado por el equipo ([@AndresMes](https://github.com/Lord-Jospe) [@MatteoAngulo](https://github.com/MatteoAngulo [@LeonelP7](https://github.com/LeonelP7)). Puedes encontrarlo en:
+Esta API está conectada con un backend desarrollado por el equipo ([@AndresMes](https://github.com/Lord-Jospe) [@MatteoAngulo](https://github.com/MatteoAngulo) [@LeonelP7](https://github.com/LeonelP7)). Puedes encontrarlo en:
 
-👉 [Backend Reservas Unimag](https://github.com/Lord-Jospe/fronted-Reservas_Unimag)
+👉 [Backend Reservas Unimag](https://github.com/MatteoAngulo/reservasEspaciosUnimag)
 
-## 👥 Autores
+## 👥 Autor(es)
 
 - **Joseph Ferrer** - [@Lord-Jospe](https://github.com/Lord-Jospe) - Desarrollador
 
 ## 📞 Contacto
 
-🔗 **Link del Proyecto**: [https://github.com/MatteoAngulo/reservasEspaciosUnimag](https://github.com/MatteoAngulo/reservasEspaciosUnimag)
+🔗 **Link del Proyecto**: [https://github.com/Lord-Jospe/fronted-Reservas_Unimag.git](https://github.com/Lord-Jospe/fronted-Reservas_Unimag.git)
 
 ---
 
