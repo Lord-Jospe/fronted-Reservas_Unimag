@@ -75,7 +75,7 @@ npm run dev
 
 ## 🔗 Backend
 
-Esta API está conectada con un backend desarrollado por el equipo ([@AndresMes](https://github.com/Lord-Jospe) [@MatteoAngulo](https://github.com/MatteoAngulo) [@LeonelP7](https://github.com/LeonelP7)). Puedes encontrarlo en:
+Esta interfaz está conectada con un backend desarrollado por el equipo ([@AndresMes](https://github.com/Lord-Jospe) [@MatteoAngulo](https://github.com/MatteoAngulo) [@LeonelP7](https://github.com/LeonelP7)). Puedes encontrarlo en:
 
 👉 [Backend Reservas Unimag](https://github.com/MatteoAngulo/reservasEspaciosUnimag)
 
