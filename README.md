@@ -61,16 +61,16 @@ npm run dev
 
 ## 📷 Vistas
 
-##Login 
+### Login 
 <img width="1365" height="649" alt="image" src="https://github.com/user-attachments/assets/54535a98-8ac0-47f2-ab17-7faa7d398f2a" />
 
-##Home principal (vista de estudiante)
+### Home principal (vista de estudiante)
 <img width="1361" height="648" alt="image" src="https://github.com/user-attachments/assets/e933c970-b205-4d2f-9738-ff05cb61b5fa" />
 
-##Vista para reservar un espacio 
+### Vista para reservar un espacio 
 <img width="1365" height="644" alt="image" src="https://github.com/user-attachments/assets/57b1a677-cec2-46d2-a9c1-f84a5ee5022d" />
 
-##Vista de panel de administrador
+### Vista de panel de administrador
 <img width="1365" height="650" alt="image" src="https://github.com/user-attachments/assets/38baa4f1-a8d3-4c46-8696-53ca50b4b09d" />
 
 ## 🔗 Backend
